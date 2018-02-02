@@ -1,0 +1,51 @@
+#!/usr/bin/python2.7
+# -*- coding: utf-8 -*-
+#
+# Université de Lorraine - Licence informatique
+# Dessin des contours et des axes d'une fenêtre image du module ig
+#
+################################################################################
+
+################################################################################
+# Chargement des définitions persos
+################################################################################
+from donnees import *
+from base import *
+from segments import *
+
+################################################################################
+# Dessin du contour de la fenêtre image
+################################################################################
+def DessineContours(fi, coul):
+
+    print("ligne ",fi.hd.lig)
+    DessineSegmentImage(fi.hd, fi.bg, coul)
+
+
+    return
+################################################################################
+
+################################################################################
+# Fonction de dessin des axes avec graduations selon le pas
+################################################################################
+def DessineAxes(pas, transfo, couleur, nbInter = None, haut = None):
+    p1, p2 = PointReel(), PointReel()   # Points pour le dessin des axes
+    i1, i2 = PointImage(), PointImage() # Points image pour les graduations
+    taille = 3                          # Taille des graduations en pixel au-dessus et au-dessous des axes
+
+    if (haut != None):
+        taille = haut
+
+    #
+    # À COMPLÉTER
+    #
+
+    # Axe horizontal
+
+    # Graduations de l'axe horizontal
+
+    # Axe vertical
+
+    # Graduations de l'axe vertical
+
+################################################################################
