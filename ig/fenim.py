@@ -18,7 +18,7 @@ from segments import *
 ################################################################################
 def DessineContours(fi, coul):
 
-    print("ligne ",fi.hd.lig)
+    #print("fenim.py > ligne ",fi.hd.lig)
 
     # Coin haut gauche a calculer
     coin_hg = PointImage(fi.bg.col, fi.hd.lig)

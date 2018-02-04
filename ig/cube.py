@@ -32,7 +32,7 @@ def DessineRectangleUni(s1, s2, coul):
 def DessineFaceCube(pos, coul, baseCol, baseLig):
     
     # debug
-    print(pos.col, pos.lig)
+    #print(pos.col, pos.lig)
 
     # on fixe R_step V_step et B_step selon valeur de R
     if(coul.R == 0) :

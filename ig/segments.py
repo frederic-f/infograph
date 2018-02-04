@@ -52,13 +52,13 @@ def DessineSegmentImage(p1, p2, coul, pas=1, epaisseur=1, fi=None):
         sensLig = -1
 
     # debug
-    print("Sens des colonnes:", sensCol)
-    print("Sens des lignes:", sensLig)
+    #print("Sens des colonnes:", sensCol)
+    #print("Sens des lignes:", sensLig)
 
     # parcours des colonnes pour le traçage (car y'a plus de differentiel en colonnes qu'en lignes)
     if absdcol >= absdlig :
         
-        print("parcours des colonnes")
+        #print("parcours des colonnes")
 
         cumul = absdcol
         
@@ -70,11 +70,7 @@ def DessineSegmentImage(p1, p2, coul, pas=1, epaisseur=1, fi=None):
                 for i in range(epaisseur) :
                     ColoriePixel(col +i , lig, coul)
 
-
-            
             cumul = cumul + 2 * absdlig
-
-            print("Cumul", cumul)
 
             if cumul >= 2 * absdcol :
                 lig = lig + sensLig
@@ -83,7 +79,8 @@ def DessineSegmentImage(p1, p2, coul, pas=1, epaisseur=1, fi=None):
             col = col + sensCol
 
     else :  # parcours des lignes pour le traçage car il y a plus de differentiel en lignes qu'en colonnes
-        print(" parcours des lignes")
+
+        #print(" parcours des lignes")
 
         cumul = absdlig
 
