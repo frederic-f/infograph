@@ -36,7 +36,7 @@ def DessineSegmentImage(p1, p2, coul, pas=1, epaisseur=1, fi=None):
     absdcol = abs(dcol) # val abs de col
     absdlig = abs(dlig) # pareil lig
 
-    # on commence toujours au point A
+    # on commence toujours au point p1
     col = p1.col
     lig = p1.lig
 
@@ -51,7 +51,11 @@ def DessineSegmentImage(p1, p2, coul, pas=1, epaisseur=1, fi=None):
     if dlig < 0 :
         sensLig = -1
 
-    # parcours des colonnes
+    # debug
+    print("Sens des colonnes:", sensCol)
+    print("Sens des lignes:", sensLig)
+
+    # parcours des colonnes pour le traçage (car y'a plus de differentiel en colonnes qu'en lignes)
     if absdcol >= absdlig :
         
         print("parcours des colonnes")
@@ -62,9 +66,15 @@ def DessineSegmentImage(p1, p2, coul, pas=1, epaisseur=1, fi=None):
             
             # prise en compte du pas pour colorier ou pas le pixel
             if col % pas == 0 :
-                ColoriePixel(col, lig, coul)
+
+                for i in range(epaisseur) :
+                    ColoriePixel(col +i , lig, coul)
+
+
             
             cumul = cumul + 2 * absdlig
+
+            print("Cumul", cumul)
 
             if cumul >= 2 * absdcol :
                 lig = lig + sensLig
@@ -72,7 +82,7 @@ def DessineSegmentImage(p1, p2, coul, pas=1, epaisseur=1, fi=None):
                      
             col = col + sensCol
 
-    else :  # parcours des lignes
+    else :  # parcours des lignes pour le traçage car il y a plus de differentiel en lignes qu'en colonnes
         print(" parcours des lignes")
 
         cumul = absdlig
@@ -81,7 +91,9 @@ def DessineSegmentImage(p1, p2, coul, pas=1, epaisseur=1, fi=None):
             
             # prise en compte du pas
             if lig % pas == 0 :
-                ColoriePixel(col, lig, coul)
+
+                for i in range(epaisseur) :
+                    ColoriePixel(col, lig +i, coul)
             
             
             cumul = cumul + 2 * absdcol

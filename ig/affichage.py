@@ -69,6 +69,11 @@ def Affichage(action):
         #
         # Sélection de l'action à effectuer
         #
+
+        # TESTS SANS L"AFFICHAGE COMPLET
+
+        # return # fin TESTS
+
         if action == don.Actions.CUBE: 
             #
             # Cube des couleurs
