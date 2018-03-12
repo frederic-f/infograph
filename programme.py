@@ -12,7 +12,7 @@
 ################################################################################
 import ig
 # Redéfinition de la liste des affichages à effectuer
-#ig.don.Afaire = [ig.don.Actions.TRIANGLES]
+ig.don.Afaire = [ig.don.Actions.TRIANGLES]
 
 ################################################################################
 # CORPS DU PROGRAMME

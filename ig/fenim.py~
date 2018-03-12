@@ -18,9 +18,28 @@ from segments import *
 ################################################################################
 def DessineContours(fi, coul):
 
-    print("ligne ",fi.hd.lig)
-    DessineSegmentImage(fi.hd, fi.bg, coul)
+    #print("fenim.py > ligne ",fi.hd.lig)
 
+    # Coin haut gauche a calculer
+    coin_hg = PointImage(fi.bg.col, fi.hd.lig)
+
+    # Coin haut droit = fi.hd
+    coin_hd = fi.hd
+
+    # coin bas droite
+    coin_bd = PointImage(fi.hd.col, fi.bg.lig)
+
+    # coin bas gauche = fi.bg
+    coin_bg = fi.bg
+
+    # segment dessus
+    DessineSegmentImage(coin_hg, coin_hd, coul)
+    # cote droit
+    DessineSegmentImage(coin_hd, coin_bd, coul)
+    # dessous
+    DessineSegmentImage(coin_bd, coin_bg, coul)
+    # cote gauche
+    DessineSegmentImage(coin_bg, coin_hg, coul)
 
     return
 ################################################################################
