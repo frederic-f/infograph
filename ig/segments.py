@@ -239,7 +239,7 @@ def DecoupeSegmentReel(pr1, pr2, fr):
     if (dx != 0) :
         pente = dy / dx
     else:
-        pente = 0
+        pente = 0 # la pente est nulle car les deux x sont sur la meme ligne
 
     # on va utiliser pente et 1/pente par la suite
 
@@ -293,7 +293,10 @@ def DecoupeSegmentReel(pr1, pr2, fr):
             #dbg print("in dessus1")
             # on deplace d'abord sur l'axe des Y PUIS on calcule le decalage x
             dy1 = npr1.y - fr.hd.y # le y est a decaler de dy1 (il est au dessus de hd)
-            dx1 = (1/ pente) * dy1 # on calcule le decalage en x en consequence
+            if(pente != 0):
+                dx1 = (1/ pente) * dy1 # on calcule le decalage en x en consequence
+            else:
+                dx1 = dy1
 
             npr1.y = fr.hd.y # le nouveau y est le bord haut
             npr1.x = npr1.x - dx1 # le nouveau x est l'ancien x ajouté du dx1
@@ -302,7 +305,10 @@ def DecoupeSegmentReel(pr1, pr2, fr):
             #dbg print("in dessous1")
             # on deplace d'abord sur l'axe des Y PUIS on calcule le decalage x
             dy1 = npr1.y - fr.bg.y  # le y est a decaler de dy1 (il est en-dessous de bg)
-            dx1 = (1 / pente) * dy1  # on calcule le decalage en x en consequence
+            if(pente != 0):
+                dx1 = (1 / pente) * dy1  # on calcule le decalage en x en consequence
+            else:
+                dx1 = dy1
 
             npr1.y = fr.bg.y  # le nouveau y est le bord bas
             npr1.x = npr1.x - dx1  # le nouveau x est l'ancien x ajouté du dx1
@@ -312,15 +318,22 @@ def DecoupeSegmentReel(pr1, pr2, fr):
             #dbg print("in dessus2")
             # on deplace d'abord sur l'axe des Y PUIS on calcule le decalage x
             dy1 = npr2.y - fr.hd.y # le y est a decaler de dy1 (il est au dessus de hd)
-            dx1 = (1/ pente) * dy1 # on calcule le decalage en x en consequence
+            if(pente !=0):
+                dx1 = (1/ pente) * dy1 # on calcule le decalage en x en consequence
+            else:
+                dx1 = dy1
 
             npr2.y = fr.hd.y # le nouveau y est le bord haut
             npr2.x = npr2.x - dx1 # le nouveau x est l'ancien x ajouté du dx1
+
         elif(dessous2):
             #dbg print("in dessous2")
             # on deplace d'abord sur l'axe des Y PUIS on calcule le decalage x
             dy1 = npr2.y - fr.bg.y  # le y est a decaler de dy1 (il est en-dessous de bg)
-            dx1 = (1 / pente) * dy1  # on calcule le decalage en x en consequence
+            if(pente != 0):
+                dx1 = (1 / pente) * dy1  # on calcule le decalage en x en consequence
+            else:
+                dx1 = dy1
 
             npr2.y = fr.bg.y  # le nouveau y est le bord bas
             npr2.x = npr2.x - dx1  # le nouveau x est l'ancien x ajouté du dx1
