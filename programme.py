@@ -12,7 +12,7 @@
 ################################################################################
 import ig
 # Redéfinition de la liste des affichages à effectuer
-ig.don.Afaire = [ig.don.Actions.PARAM]
+ig.don.Afaire = [ig.don.Actions.BEZIER]
 
 ################################################################################
 # CORPS DU PROGRAMME

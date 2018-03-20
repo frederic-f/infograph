@@ -48,11 +48,14 @@ def ParametriqueY(t):
 def DessineCourbeParametrique(tmin, tmax, tpas, coul, transfo, dicho=False):
     
     #
-    # À COMPLÉTER
+    # fait
     #
 
     if dicho: # Version récursive
-        pass
+        # on regarde si il faut diviser en deux ou afficher
+        print (transfo.irA)
+
+
     else:     # Version itérative à pas constant
 
         # IMPORTANT : un segment est trace entre un point PRECEDANT et un point SUIVANT

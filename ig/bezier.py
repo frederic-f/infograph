@@ -37,12 +37,48 @@ def DessineBezier(pts, pas, coul, transfo, tgtes = False, coulFin = None, epaiss
 
     # Récupération des fonctions adéquates et des listes de chaque coordonnées
     # On considère le degré 1 par défaut
-    B = B1
-    lstx = [pts[0].x, pts[1].x]
-    lsty = [pts[0].y, pts[1].y]
+   
+    if (degre == 1) :
+        B = B1
+        lstx = [pts[0].x, pts[1].x]
+        lsty = [pts[0].y, pts[1].y]
+    elif (degre == 2) :
+        B = B2
+        lstx = [pts[0].x, pts[1].x, pts[2].x]
+        lsty = [pts[0].y, pts[1].y, pts[2].y] 
+    elif (degre == 3) :
+        B = B3
+        lstx = [pts[0].x, pts[1].x, pts[2].x, pts[3].x]
+        lsty = [pts[0].y, pts[1].y, pts[2].y, pts[3].y] 
 
     #
-    # À COMPLÉTER
+    # fait
     #
+
+    DessinePointReel(pts[0], coul, transfo)
+        
+    # calcul du premier point precedant, cad t=0
+    pr_precedant = PointReel()
+    pr_precedant.x = B1(t, lstx)
+    pr_precedant.y = B1(t, lsty)
+
+    while (t <= 1) :
+        # incrementation du pas pour calculer le point suivant
+        t += pas
+        pr_suivant = PointReel()
+        pr_suivant.x = B(t, lstx)
+        pr_suivant.y = B(t, lsty)
+
+        # on trace le segment
+        DessineSegmentReel(pr_precedant, pr_suivant, coul, transfo)
+
+        # point suivant devient point precedant
+        pr_precedant.x = pr_suivant.x
+        pr_precedant.y = pr_suivant.y
+
+
+    # courbes de degre 1 pour le pot
+    # courbes de degre 2 pour le pistil
+    # courbes de degre 3 pour la tige, les feuilles et les petales
 
 ################################################################################

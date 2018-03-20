@@ -54,8 +54,8 @@ def DessineFonction(coul, transfo):
     pr2 = TransformationIvR(pi2, transfo)
 
     pasReel = pr2.x - pr1.x
-    #print("Pas reel = ", pasReel) # 0.0096930
-
+    print("Mon Pas reel = ", pasReel) # 0.0096930
+    print("Pas reel de la transfo = ", transfo.irA) # 0.0096930 C'EST LE MEME
     # on va tracer la fonction
     # ce qui revient a tracer des segments successifs entre deux points : un point nouvellement calculé et le point précédent
 
