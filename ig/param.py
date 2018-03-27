@@ -45,7 +45,7 @@ def ParametriqueY(t):
 # Dessin de la courbe paramétrique pour t dans [tmin, tmax]
 # avec le pas constant tpas
 ################################################################################
-def DessineCourbeParametrique(tmin, tmax, tpas, coul, transfo, dicho=False):
+def DessineCourbeParametrique(tmin, tmax, tpas, coul, transfo, dicho=False, num=0):
     
     #
     # fait
@@ -53,8 +53,23 @@ def DessineCourbeParametrique(tmin, tmax, tpas, coul, transfo, dicho=False):
 
     if dicho: # Version récursive
         # on regarde si il faut diviser en deux ou afficher
-        print (transfo.irA)
+        diff = abs(tmax - tmin)
+        print ("diff = ", diff)
 
+        tmilieu = (tmax + tmin)/2
+        print ("tmilieu = ", tmilieu)
+
+
+
+        print ("dt = ", transfo.irA)
+        print ("tmin = ", tmin, ", tmax = ", tmax)
+
+        num += 1
+        print num
+
+
+        while (num < 2) :
+             DessineCourbeParametrique(tmilieu, tmax, tpas, coul, transfo, True, num)
 
     else:     # Version itérative à pas constant
 

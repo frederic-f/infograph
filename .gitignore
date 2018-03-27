@@ -2,3 +2,4 @@
 /depots
 *.pyc
 *py~
+/venv
