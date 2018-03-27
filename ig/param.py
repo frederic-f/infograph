@@ -68,7 +68,7 @@ def DessineCourbeParametrique(tmin, tmax, tpas, coul, transfo, dicho=False, num=
         print num
 
 
-        while (num < 2) :
+        if (num < 2) :
              DessineCourbeParametrique(tmilieu, tmax, tpas, coul, transfo, True, num)
 
     else:     # Version itérative à pas constant

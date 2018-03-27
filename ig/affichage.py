@@ -431,6 +431,11 @@ def Affichage(action):
             if (don.remplissage): 
                 AfficheTexte("et remplissage", (MARGE, 3*MARGE//2), Jaune)
                 AfficheTexte("de zones uniformes", (MARGE, 2*MARGE), Jaune)
+                
+                # test de remplissage de la partie autour de la fleur
+                #pr = don.PointReel(-5, -9)
+                #pi = TransformationRvI(pr, don.tr1)
+                #RemplissageUni(pi, Couleur(0,200,0), don.tr1.fi)
 
                 pr = don.PointReel(0, -9)
                 pi = TransformationRvI(pr, don.tr1)
@@ -498,7 +503,10 @@ def Affichage(action):
 
                         # Affichage des heures sur le tour de l'horloge
                         centreCouronne = rayonInt + (rayonExt - rayonInt) / 2
-                        #
+                        
+                        AfficheTexte("XII", (ci.col, ci.lig), Jaune)
+
+
                         # À COMPLÉTER
                         #
 
