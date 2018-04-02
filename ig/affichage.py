@@ -490,7 +490,7 @@ def Affichage(action):
                 DessineContours(fi, Rouge)
 
                 # Calcul de la transfo Réel -> Image
-                don.tr1 = CalculTransfosFenetres(fr, fi) # Calcul de la transfo Réel -> Image
+                don.tr1 = CalculTransfosFenetres(fr, fi)
 
                 if (ecr.fenCop == None): # 1ère exécution
                     AfficheTexte("Horloge", (don.MARGE, don.MARGE), Jaune)
@@ -498,17 +498,72 @@ def Affichage(action):
                 
                     if (don.tr1.riA != None):
                         ci = TransformationRvI(centre, don.tr1)
+
+                        # on colorie deux disques concentriques
+                        # le plus grand en bleu, l'autre en noir
+                        # ce qui donne l'illusion d'une couronne bleue
                         ColoriePoint(ci, Bleu, int(round(rayonExt * don.tr1.riA)))
                         ColoriePoint(ci, Noir, int(round(rayonInt * don.tr1.riA)))
 
                         # Affichage des heures sur le tour de l'horloge
-                        centreCouronne = rayonInt + (rayonExt - rayonInt) / 2
-                        
-                        AfficheTexte("XII", (ci.col, ci.lig), Jaune)
+
+                        # on calcule la distance entre le centre des disques et le centre de la couronne bleue
+                        # attention le calcul est en Reel puis converti en Image
+                        distCentreCouronne = (rayonInt + (rayonExt - rayonInt) / 2) * don.tr1.riA
+
+                        # le 12 est a la meme colonne que le centre
+                        AfficheTexte("XII", (ci.col, ci.lig - distCentreCouronne), Jaune, centre=True)
+                        # le 6 aussi
+                        AfficheTexte("VI", (ci.col, ci.lig + distCentreCouronne), Jaune, centre=True)
+
+                        # le 3 est a la meme ligne que le centre
+                        AfficheTexte("III", (ci.col + distCentreCouronne, ci.lig), Jaune, centre=True)
+                        # le 9 aussi
+                        AfficheTexte("IX", (ci.col - distCentreCouronne, ci.lig), Jaune, centre=True)
 
 
-                        # À COMPLÉTER
-                        #
+                        # les autres indications sont ecartées de pi/6 radians
+
+                        # on calcule comme si on passait du 3 au 2 (de o a pi/6 sur le cercle trigo)
+
+                        # le decalage vertical est calculé avec sin
+                        decalage_lig = int(round(sin(math.pi /6) * distCentreCouronne)) # 1/2 * dist
+                        # le decalage horizontal est calculé avec cos
+                        decalage_col = int(round(cos(math.pi/6) * distCentreCouronne)) # sqrt(3) / 2  * dist
+
+                        # on utilise ce decalage pour 2, 4, 8 et 10
+                        # on fait les decalages a partir du centre
+
+                        # affichage du 2
+                        AfficheTexte("II", (ci.col + decalage_col, ci.lig - decalage_lig), Jaune, centre=True)
+
+                        # affichage du 4
+                        AfficheTexte("IV", (ci.col + decalage_col, ci.lig + decalage_lig), Jaune, centre=True)
+
+                        # affichage du 8
+                        AfficheTexte("VIII", (ci.col - decalage_col, ci.lig + decalage_lig), Jaune, centre=True)
+
+                        # affichage du 10
+                        AfficheTexte("X", (ci.col - decalage_col, ci.lig - decalage_lig), Jaune, centre=True)
+
+                        # on inverse pour 1, 5, 7 et 11
+                        tmp = decalage_lig
+                        decalage_lig = decalage_col
+                        decalage_col = tmp
+
+
+                        # affichage du 1
+                        AfficheTexte("I", (ci.col + decalage_col, ci.lig - decalage_lig), Jaune, centre=True)
+
+                        # affichage du 5
+                        AfficheTexte("V", (ci.col + decalage_col, ci.lig + decalage_lig), Jaune, centre=True)
+
+                        # affichage du 7
+                        AfficheTexte("VII", (ci.col - decalage_col, ci.lig + decalage_lig), Jaune, centre=True)
+
+                        # affichage du 11
+                        AfficheTexte("XI", (ci.col - decalage_col, ci.lig - decalage_lig), Jaune, centre=True)
+
 
                     ecr.fenCop = ecr.fen.copy()
                 else:                    # exécutions suivantes
