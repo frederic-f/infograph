@@ -73,8 +73,13 @@ def DessineSegmentImage(p1, p2, coul, pas=1, epaisseur=1, fi=None):
                 # prise en compte du pas pour colorier ou pas le pixel
                 if col % pas == 0 :
 
-                    for i in range(epaisseur) :
-                        ColoriePixel(col +i , lig, coul)
+		    # prise en compte de l'epaisseur
+		    # pour cela, on colorie un point de diametre = epaisseur (plutot que colorier un pixel)
+                    
+                    ColoriePoint(PointImage(col, lig), coul, int(round(epaisseur/2)))
+                    
+                    #for i in range(epaisseur) :
+                    #    ColoriePixel(col +i , lig, coul)
 
                 cumul = cumul + 2 * absdlig
 
@@ -95,8 +100,7 @@ def DessineSegmentImage(p1, p2, coul, pas=1, epaisseur=1, fi=None):
                 # prise en compte du pas
                 if lig % pas == 0 :
 
-                    for i in range(epaisseur) :
-                        ColoriePixel(col, lig +i, coul)
+                    ColoriePoint(PointImage(col, lig), coul, int(round(epaisseur/2)))
 
 
                 cumul = cumul + 2 * absdcol
@@ -139,7 +143,7 @@ def DessineSegmentReel(p1, p2, coul, transfo, pasHF=0, epaisseur=1):
         # images des extremites DANS fenetre
         i1 = TransformationRvI(r1, transfo)
         i2 = TransformationRvI(r2, transfo)
-        DessineSegmentImage(i1, i2, coul)
+        DessineSegmentImage(i1, i2, coul, 1, epaisseur)
 # images des extremites HORS fenetre
 
 
@@ -213,12 +217,6 @@ def DecoupeSegmentReel(pr1, pr2, fr):
 
     npr1 = PointReel(pr1.x, pr1.y) # Copie de pr1, éventuellement déplacée sur un bord de la fenêtre
     npr2 = PointReel(pr2.x, pr2.y) # Copie de pr2, éventuellement déplacée sur un bord de la fenêtre
-
-
-
-    #
-    # À COMPLÉTER
-    #
 
     # on met tout a faux pour entrer dans la boucle
     # sinon il faudrait copier tous les tests avant la boucle et ça fait moche

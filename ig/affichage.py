@@ -102,7 +102,7 @@ def Affichage(action):
             i1 = PointImage(fi.bg.col + 10, fi.bg.lig - 10)
             i2 = PointImage(fi.hd.col - 10, (2*fi.bg.lig + fi.hd.lig)//3)
             i3 = PointImage((fi.bg.col + fi.hd.col)//2, fi.hd.lig + 10)
-            #DessineTriangleImage(i1, i2, i3, Cyan)
+            DessineTriangleImage(i1, i2, i3, Cyan)
 
             # Dessin d'un triangle image en pointillés
             i1 = PointImage(i1.col + 20, i1.lig - 15)
@@ -117,7 +117,7 @@ def Affichage(action):
             r1 = don.PointReel(0.0,  0.0)
             r2 = don.PointReel(15.0,  2.5)
             r3 = don.PointReel(-7.5, 12.5)
-            #DessineTriangleReel(r1, r2, r3, Jaune, don.tr1, 3)
+            DessineTriangleReel(r1, r2, r3, Jaune, don.tr1, 3)
             DessineTriangleReel(r1, r2, r3, Bleu, don.tr1)
             DessinePointReel(r1, Jaune, don.tr1)
             DessinePointReel(r2, Jaune, don.tr1)
@@ -126,7 +126,7 @@ def Affichage(action):
             r1 = don.PointReel(-15.0, -3.0)
             r2 = don.PointReel(2.0,  -12.0)
             r3 = don.PointReel(17.5,  -1.5)
-            #DessineTriangleReel(r1, r2, r3, Jaune, don.tr1, 3)
+            DessineTriangleReel(r1, r2, r3, Jaune, don.tr1, 3)
             DessineTriangleReel(r1, r2, r3, Bleu, don.tr1)
             DessinePointReel(r1, Jaune, don.tr1)
             DessinePointReel(r2, Jaune, don.tr1)
@@ -601,7 +601,7 @@ def Affichage(action):
                 DessineContours(fi, Rouge)
 
                 # Chargement de l'objet
-                nomFic = "objs/cube.obj"
+                nomFic = "objs/cessna.obj"
                 don.obj = Obj(nomFic, True)
 
                 # Définition du reprère 3D isométrique

@@ -91,10 +91,19 @@ def CalculeRepereIso(obj, fi):
 def ProjectionIso(A, repIso):
     res = PointImage()
 
-    #
-    # À COMPLÉTER
-    #
+    # FAIT
 
+    # A est un Point3D(x, y, z) avec x, y, z reel
+    # point obtenir PointImage :
+    # on part de l'origine
+    # on ajoute les differents vecteurs
+    #pr = PointReel(repIso.O.x + (A.x * repIso.X.x) + (A.y * repIso.Y.x) + (A.z 
+
+   
+    res.col = int(round(repIso.O.col + (A.x * repIso.X.x) + (A.y * repIso.Y.x) + (A.z * repIso.Z.x)))
+
+    res.lig = int(round(repIso.O.lig + (A.x * repIso.X.y) + (A.y * repIso.Y.y) + (A.z * repIso.Z.y)))
+   
     return res
 ################################################################################
 
@@ -104,13 +113,36 @@ def ProjectionIso(A, repIso):
 def DessineObjet(obj, repIso, coul, fi = None, projection = False):
 
     #
-    # À COMPLÉTER
+    # FAIT
     #
 
     # Calcul des projections des pts 3D sur l'image
     if (projection):
-        pass
+        # on cree une liste des pts 3D
+	projections3D = []
+	
+	# on remplit la liste en faisant la projectionIso de chaque point3D
+	for i, val in enumerate(obj.pts):
+		pi = PointImage()
+		pi = ProjectionIso(val, repIso)
+		projections3D.append(pi)
 
-    # Dessin des faces
+	
+	# pour chaque face, on trace les segments
+	for i, face in enumerate(obj.faces):
+		
+		# on compte le nombre de points
+		nb_points = len(face)
+		
+		# on trace tous les segments
+		for i in range(nb_points):
+			# le dernier segment trace du dernier point au premier
+			if (i+1) == nb_points:
+				j=0
+			else:
+				j=i+1
+				
+			DessineSegmentImage(projections3D[face[i]], projections3D[face[j]], coul)
+
 
 ################################################################################

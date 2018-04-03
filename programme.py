@@ -12,7 +12,7 @@
 ################################################################################
 import ig
 # Redéfinition de la liste des affichages à effectuer
-ig.don.Afaire = [ig.don.Actions.HORLOGE]
+#ig.don.Afaire = [ig.don.Actions.ISO]
 
 ################################################################################
 # CORPS DU PROGRAMME
