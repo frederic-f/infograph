@@ -176,7 +176,7 @@ def Affichage(action):
             pr2 = don.PointReel( 12.0,  12.0)
 
             # Dessin du fuseau
-            DessineFuseau(pr1, pr2, "hg", Bleu, Jaune)
+            DessineFuseau(pr1, pr2, "hg", Bleu, Jaune, don.tr1)
 
         elif action == don.Actions.FUSEAU2: 
             #
@@ -197,7 +197,7 @@ def Affichage(action):
             pr2 = don.PointReel( 12.0,  12.0)
 
             # Dessin du fuseau
-            DessineFuseau(pr1, pr2, "hd", Bleu, Jaune)
+            DessineFuseau(pr1, pr2, "hd", Bleu, Jaune, don.tr1)
 
         elif action == don.Actions.FUSEAU3:
             #
@@ -218,7 +218,7 @@ def Affichage(action):
             pr2 = don.PointReel( 12.0,  12.0)
 
             # Dessin du fuseau
-            DessineFuseau(pr1, pr2, "bd", Bleu, Jaune)
+            DessineFuseau(pr1, pr2, "bd", Bleu, Jaune, don.tr1)
 
         elif action == don.Actions.FUSEAU4:
             #
@@ -239,7 +239,7 @@ def Affichage(action):
             pr2 = don.PointReel( 12.0,  12.0)
 
             # Dessin du fuseau
-            DessineFuseau(pr1, pr2, "bg", Bleu, Jaune)
+            DessineFuseau(pr1, pr2, "bg", Bleu, Jaune, don.tr1)
             
         elif action == don.Actions.FONCTION:
             #

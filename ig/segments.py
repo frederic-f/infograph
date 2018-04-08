@@ -73,8 +73,8 @@ def DessineSegmentImage(p1, p2, coul, pas=1, epaisseur=1, fi=None):
                 # prise en compte du pas pour colorier ou pas le pixel
                 if col % pas == 0 :
 
-		    # prise en compte de l'epaisseur
-		    # pour cela, on colorie un point de diametre = epaisseur (plutot que colorier un pixel)
+                    # prise en compte de l'epaisseur
+                    # pour cela, on colorie un point de diametre = epaisseur (plutot que colorier un pixel)
                     
                     ColoriePoint(PointImage(col, lig), coul, int(round(epaisseur/2)))
                     
@@ -138,51 +138,33 @@ def DessineSegmentReel(p1, p2, coul, transfo, pasHF=0, epaisseur=1):
 
     # on verifie que le segment est a tracer
     # cad que les coordonnees sont a l interieur de la fenetre
-    if (r1.x >= transfo.fr.bg.x):
+
         # on trace
         # images des extremites DANS fenetre
-        i1 = TransformationRvI(r1, transfo)
-        i2 = TransformationRvI(r2, transfo)
-        DessineSegmentImage(i1, i2, coul, 1, epaisseur)
-# images des extremites HORS fenetre
-
-
-  
-
-
-    # si au moins une des extremites est HORS fenetre, on trace trois segments
-"""
-    gauche1 = p1.x < fr.bg.x
-    dessus1 = p1.y > fr.hd.y
-    droite1 = p1.x > fr.hd.x
-    dessous1 = p1.y < fr.bg.y
-    gauche2 = p2.x < fr.bg.x
-    dessus2 = p2.y > fr.hd.y
-    droite2 = p2.x > fr.hd.x
-    dessous2 = p2.y < fr.bg.y
-"""
-    # si tout dehors
-    #if (r1.x = transfo.fr.bg.x - 1.0) and (r1.y = transfo.fr.bg.y - 1.0) and (r2.x = transfo.fr.bg.x - 1.0) and (r2.y = transfo.fr.bg.y - 1.0):
-        # segment completement en dehors
-        # on trace p1 <-> p2 avec un pas de 2
-    # sinon
-        # on trace les 3 portions de segment avec des pas différents pour les identifier
-
-
 
 
     # Si segment en partie dans la fenêtre
-
+    if (r1.x >= transfo.fr.bg.x):
     #   Affichage partie p1<->r1 (hors fenêtre)
+        i1 = TransformationRvI(p1, transfo)
+        i2 = TransformationRvI(r1, transfo)
+        DessineSegmentImage(i1, i2, coul, 3, epaisseur)
 
     #   Affichage partie r1<->r2
+        i1 = TransformationRvI(r1, transfo)
+        i2 = TransformationRvI(r2, transfo)
+        DessineSegmentImage(i1, i2, coul, 1, epaisseur)
 
     #   Affichage partie r2<->p2 (hors fenêtre)
-
+        i1 = TransformationRvI(r2, transfo)
+        i2 = TransformationRvI(p2, transfo)
+        DessineSegmentImage(i1, i2, coul, 3, epaisseur)
     # Sinon
-
+    else:
     #   Affichage partie p1<->p2 (hors fenêtre)
-
+        i1 = TransformationRvI(p1, transfo)
+        i2 = TransformationRvI(p2, transfo)
+        DessineSegmentImage(i1, i2, coul, 3, epaisseur)
 ################################################################################
 
 ################################################################################
@@ -218,9 +200,7 @@ def DecoupeSegmentReel(pr1, pr2, fr):
     npr1 = PointReel(pr1.x, pr1.y) # Copie de pr1, éventuellement déplacée sur un bord de la fenêtre
     npr2 = PointReel(pr2.x, pr2.y) # Copie de pr2, éventuellement déplacée sur un bord de la fenêtre
 
-    # on met tout a faux pour entrer dans la boucle
-    # sinon il faudrait copier tous les tests avant la boucle et ça fait moche
-    toutDedans = toutDehors = gauche1 = gauche2 = droite1 = droite2 = dessus1 = dessus2 = dessous1 = dessous2 = False
+    toutDedans = toutDehors = False
 
     gauche1 = npr1.x < fr.bg.x
     dessus1 = npr1.y > fr.hd.y
@@ -230,6 +210,17 @@ def DecoupeSegmentReel(pr1, pr2, fr):
     dessus2 = npr2.y > fr.hd.y
     droite2 = npr2.x > fr.hd.x
     dessous2 = npr2.y < fr.bg.y
+
+
+    # Affectation hors fenêtre si le segment est tout dehors
+    if (gauche1 and gauche2) or (dessus1 and dessus2) or (droite1 and droite2) or (dessous1 and dessous2):
+        npr1.x = fr.bg.x - 1.0
+        npr1.y = fr.bg.y - 1.0
+        npr2.x = fr.bg.x - 1.0
+        npr2.y = fr.bg.y - 1.0
+
+    return (npr1, npr2)
+
 
     # pente constante quoi qu'il arrive
     dx = pr2.x - pr1.x
@@ -252,6 +243,7 @@ def DecoupeSegmentReel(pr1, pr2, fr):
         # on considera le differentiel dx ou dy TOUJOURS positif
 
         # on fait une projection
+
         if(gauche1): # projection du point gauche sur le bord gauche
             #_ print("in gauche1") # OK
             # on deplace d'abord sur l'axe des x PUIS on calcule le decalage y
@@ -385,23 +377,82 @@ def DecoupeSegmentReel(pr1, pr2, fr):
 ################################################################################
 # Dessin d'un ensemble de segments réels issus d'un même point
 ################################################################################
-def DessineFuseau(pr1, pr2, source, coulS, coulP):
+def DessineFuseau(pr1, pr2, source, coulS, coulP, transfo):
 
     #
-    # À COMPLÉTER
+    # IN PROGRESS
     #
-    return
-    
+
     # Détermination des points bg et hd
+    bg = PointReel(min(pr1.x, pr2.x), min(pr1.y, pr2.y))
+    hd = PointReel(max(pr1.x, pr2.x), max(pr1.y, pr2.y))
 
-    # Détermination des points de départ et d'arrivée
+    bd = PointReel(max(pr1.x, pr2.x), min(pr1.y, pr2.y))
+    hg = PointReel(min(pr1.x, pr2.x), max(pr1.y, pr2.y))
 
-    # Sens de parcours en X
+    if source == "hg":
+        pr_source = PointReel(hg.x, hg.y)
 
-    # Sens de parcours en Y
+        # Détermination des points de départ et d'arrivée
+        pr_depart = bg
+        pr_arrivee = hd
+
+        # Sens de parcours en X
+        step_x = 1
+
+        # Sens de parcours en Y
+        step_y = 1
+
+    elif source == "hd":
+        pr_source = PointReel(hd.x, hd.y)
+
+        # Détermination des points de départ et d'arrivée
+        pr_depart = bd
+        pr_arrivee = hg
+
+        # Sens de parcours en X
+        step_x = -1
+
+        # Sens de parcours en Y
+        step_y = 1
+
+    elif source == "bd":
+        pr_source = PointReel(bd.x, bd.y)
+
+        # Détermination des points de départ et d'arrivée
+        pr_depart = hd
+        pr_arrivee = bg
+
+        # Sens de parcours en X
+        step_x = -1
+
+        # Sens de parcours en Y
+        step_y = -1
+
+    elif source == "bg":
+        pr_source = PointReel(bg.x, bg.y)
+
+        # Détermination des points de départ et d'arrivée
+        pr_depart = hg
+        pr_arrivee = bd
+
+        # Sens de parcours en X
+        step_x = 1
+
+        # Sens de parcours en Y
+        step_y = -1
+
 
     # Boucle des segments balayant l'axe des X
+    while (pr_depart.x != (pr_arrivee.x)):
+        DessineSegmentReel(pr_source, pr_depart, coulS, transfo, 3, 1)
+        pr_depart.x += step_x
 
     # Boucle des segments balayant l'axe des Y
+    while (pr_depart.y != (pr_arrivee.y)):
+        DessineSegmentReel(pr_source, pr_depart, coulS, transfo, 3, 1)
+        pr_depart.y += step_y
+
+
 
 ################################################################################
