@@ -47,19 +47,14 @@ def DessineTrianglePlein(pi1, pi2, pi3, coul):
     # calcul du delta necessaire pour parcourir AB
     mAB = max(abs(AB.col), abs(AB.lig))
 
-    print("mAB", mAB)
-    dAB = 1.
-
-    print("dAB", dAB)
+    dAB = 1
 
     if mAB != 0:
         dAB = 1.0 / mAB
 
-    print("dAB", dAB)
-
     # calcul du delta necessaire pour parcourir AC
     mAC = max(abs(AC.col), abs(AC.lig))
-    dAC = 1.
+    dAC = 1
 
     if mAC != 0:
         dAC = 1.0 / mAC
