@@ -321,11 +321,11 @@ def Affichage(action):
                 DessineCourbeParametrique(-2*3.15, 2*3.15, 0.5, couleur, don.tr1, True)
 
                 # Tracé dans seconde fenêtre
-                #DessineCourbeParametrique(-2*3.15, 2*3.15, 0.1, couleur, don.tr2, True)
+                DessineCourbeParametrique(-2*3.15, 2*3.15, 0.1, couleur, don.tr2, True)
 
                 # Dessin de la tangente en plusieurs points
                 DessineTangente(-3.14/2, "p", Jaune, don.tr1)
-                #DessineTangente(0.0, "p", Jaune, don.tr1)
+                #DessineTangente(2.0, "p", Jaune, don.tr1)
                 DessineTangente(3.14/2, "p", Jaune, don.tr1)
                 DessineTangente(3.14, "p", Jaune, don.tr2)
                 DessineTangente(-3.14, "p", Jaune, don.tr2)

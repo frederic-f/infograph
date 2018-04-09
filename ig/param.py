@@ -55,28 +55,31 @@ def DessineCourbeParametrique(tmin, tmax, tpas, coul, transfo, dicho=False):
 
         # Version récursive
         # Le principe : on divise la distance entre les deux points par deux
-        # jusqu'a ce que la distance entre les deux point soit inférieure au pas reel (irA)
+        # jusqu'a ce que
+        #  tmin - tmax < tas
+        #  et
+        #  q la distance entre les points correspondants à tmin et tmax soit < irA
 
-        diff = abs(tmax - tmin)
-        #print ("diff = ", diff)
+        diff_t = abs(tmax - tmin)
 
-        tmilieu = (tmax + tmin)/2
-        print ("tmilieu = ", tmilieu)
+        pr_precedant = PointReel(ParametriqueX(tmin), ParametriqueY(tmin))
+        pr_suivant = PointReel(ParametriqueX(tmax), ParametriqueY(tmax))
 
-        print ("dt = ", transfo.irA)
-        #print ("tmin = ", tmin, ", tmax = ", tmax)
-
-        #print ("\n")
+        diff_x = abs(pr_precedant.x - pr_suivant.x)
+        diff_y = abs(pr_precedant.y - pr_suivant.y)
 
 
         # si la difference est superieure, on divise a nouveau par deux
-        if diff > transfo.irA:
+        if diff_x > transfo.irA or diff_y > transfo.irA or diff_t > tpas:
+
+            tmilieu = (tmax + tmin) / 2
+
             DessineCourbeParametrique(tmin, tmilieu, tpas, coul, transfo, True)
+
             DessineCourbeParametrique(tmilieu, tmax, tpas, coul, transfo, True)
+
         else:
             # sinon on affiche le segment reel
-            pr_precedant = PointReel(ParametriqueX(tmin), ParametriqueY(tmin))
-            pr_suivant = PointReel(ParametriqueX(tmax), ParametriqueY(tmax))
             DessineSegmentReel(pr_precedant, pr_suivant, coul, transfo)
 
 

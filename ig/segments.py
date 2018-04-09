@@ -127,44 +127,33 @@ def DessineSegmentImage(p1, p2, coul, pas=1, epaisseur=1, fi=None):
 # Le paramètre epaisseur spécifie le nombre de pixels pour l'épaisseur du trait
 ################################################################################
 def DessineSegmentReel(p1, p2, coul, transfo, pasHF=0, epaisseur=1):
-    i1, i2 = PointImage(), PointImage()
-    r1, r2 = PointReel(), PointReel()
     coulExt = Couleur(255 - coul.R, 255 - coul.V, 255 - coul.B) # Couleur inversée
-
-    #
-    # À COMPLÉTER
 
     r1, r2 = DecoupeSegmentReel(p1, p2, transfo.fr)
 
-    # on verifie que le segment est a tracer
-    # cad que les coordonnees sont a l interieur de la fenetre
-
-        # on trace
-        # images des extremites DANS fenetre
-
-
     # Si segment en partie dans la fenêtre
-    if (r1.x >= transfo.fr.bg.x):
-    #   Affichage partie p1<->r1 (hors fenêtre)
+    if r1.x >= transfo.fr.bg.x :
+
+        # Affichage partie p1<->r1 (hors fenêtre)
         i1 = TransformationRvI(p1, transfo)
         i2 = TransformationRvI(r1, transfo)
-        DessineSegmentImage(i1, i2, coul, 3, epaisseur)
+        DessineSegmentImage(i1, i2, coul, pasHF, epaisseur)
 
-    #   Affichage partie r1<->r2
+        # Affichage partie r1<->r2
         i1 = TransformationRvI(r1, transfo)
         i2 = TransformationRvI(r2, transfo)
         DessineSegmentImage(i1, i2, coul, 1, epaisseur)
 
-    #   Affichage partie r2<->p2 (hors fenêtre)
+        # Affichage partie r2<->p2 (hors fenêtre)
         i1 = TransformationRvI(r2, transfo)
         i2 = TransformationRvI(p2, transfo)
-        DessineSegmentImage(i1, i2, coul, 3, epaisseur)
-    # Sinon
+        DessineSegmentImage(i1, i2, coul, pasHF, epaisseur)
+
     else:
-    #   Affichage partie p1<->p2 (hors fenêtre)
+        # Affichage partie p1<->p2 (hors fenêtre)
         i1 = TransformationRvI(p1, transfo)
         i2 = TransformationRvI(p2, transfo)
-        DessineSegmentImage(i1, i2, coul, 3, epaisseur)
+        DessineSegmentImage(i1, i2, coul, pasHF, epaisseur)
 ################################################################################
 
 ################################################################################
@@ -219,7 +208,8 @@ def DecoupeSegmentReel(pr1, pr2, fr):
         npr2.x = fr.bg.x - 1.0
         npr2.y = fr.bg.y - 1.0
 
-    return (npr1, npr2)
+        return (npr1, npr2)
+
 
 
     # pente constante quoi qu'il arrive
@@ -379,10 +369,6 @@ def DecoupeSegmentReel(pr1, pr2, fr):
 ################################################################################
 def DessineFuseau(pr1, pr2, source, coulS, coulP, transfo):
 
-    #
-    # IN PROGRESS
-    #
-
     # Détermination des points bg et hd
     bg = PointReel(min(pr1.x, pr2.x), min(pr1.y, pr2.y))
     hd = PointReel(max(pr1.x, pr2.x), max(pr1.y, pr2.y))
@@ -390,12 +376,18 @@ def DessineFuseau(pr1, pr2, source, coulS, coulP, transfo):
     bd = PointReel(max(pr1.x, pr2.x), min(pr1.y, pr2.y))
     hg = PointReel(min(pr1.x, pr2.x), max(pr1.y, pr2.y))
 
+    # pour les boucles de tracage
+    range_min_x = int(min(pr1.x, pr2.x))
+    range_max_x = int(max(pr1.x, pr2.x)) + 1
+
+    range_min_y = int(min(pr1.y, pr2.y))
+    range_max_y = int(max(pr1.y, pr2.y)) + 1
+
     if source == "hg":
         pr_source = PointReel(hg.x, hg.y)
 
         # Détermination des points de départ et d'arrivée
-        pr_depart = bg
-        pr_arrivee = hd
+        pr_cible = bg
 
         # Sens de parcours en X
         step_x = 1
@@ -407,8 +399,7 @@ def DessineFuseau(pr1, pr2, source, coulS, coulP, transfo):
         pr_source = PointReel(hd.x, hd.y)
 
         # Détermination des points de départ et d'arrivée
-        pr_depart = bd
-        pr_arrivee = hg
+        pr_cible = bd
 
         # Sens de parcours en X
         step_x = -1
@@ -420,8 +411,7 @@ def DessineFuseau(pr1, pr2, source, coulS, coulP, transfo):
         pr_source = PointReel(bd.x, bd.y)
 
         # Détermination des points de départ et d'arrivée
-        pr_depart = hd
-        pr_arrivee = bg
+        pr_cible = hd
 
         # Sens de parcours en X
         step_x = -1
@@ -433,8 +423,7 @@ def DessineFuseau(pr1, pr2, source, coulS, coulP, transfo):
         pr_source = PointReel(bg.x, bg.y)
 
         # Détermination des points de départ et d'arrivée
-        pr_depart = hg
-        pr_arrivee = bd
+        pr_cible = hg
 
         # Sens de parcours en X
         step_x = 1
@@ -444,15 +433,28 @@ def DessineFuseau(pr1, pr2, source, coulS, coulP, transfo):
 
 
     # Boucle des segments balayant l'axe des X
-    while (pr_depart.x != (pr_arrivee.x)):
-        DessineSegmentReel(pr_source, pr_depart, coulS, transfo, 3, 1)
-        pr_depart.x += step_x
+    for x in range(range_min_x, range_max_x):
+
+        # dessin segment
+        DessineSegmentReel(pr_source, pr_cible, coulS, transfo, 3, 1)
+
+        # coloriage point
+        pi = TransformationRvI(pr_cible, transfo)
+        ColoriePixel(pi.col, pi.lig, coulP)
+
+        pr_cible.x += step_x
 
     # Boucle des segments balayant l'axe des Y
-    while (pr_depart.y != (pr_arrivee.y)):
-        DessineSegmentReel(pr_source, pr_depart, coulS, transfo, 3, 1)
-        pr_depart.y += step_y
+    for x in range(range_min_y, range_max_y):
 
+        # dessin segment
+        DessineSegmentReel(pr_source, pr_cible, coulS, transfo, 3, 1)
+
+        # coloriage point
+        pi = TransformationRvI(pr_cible, transfo)
+        ColoriePixel(pi.col, pi.lig, coulP)
+
+        pr_cible.y += step_y
 
 
 ################################################################################
